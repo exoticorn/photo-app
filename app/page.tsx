@@ -1,10 +1,27 @@
+'use client'
+
 import AcmeLogo from '@/app/ui/acme-logo';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import * as React from 'react';
 
 export default function Page() {
+  let videoElem = React.useRef(null);
+
+  React.useEffect(() => {
+    async function activateCamera() {
+      try {
+        let stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        videoElem.current.srcObject = stream;
+      } catch(err) {
+        console.log(err);
+      }
+    }
+    activateCamera();
+  }, []);
   return (
     <main className="flex min-h-screen flex-col p-6">
+      <video playsInline autoPlay ref={videoElem}></video>
       <div className="flex h-20 shrink-0 items-end rounded-lg bg-blue-500 p-4 md:h-52">
         {/* <AcmeLogo /> */}
       </div>
